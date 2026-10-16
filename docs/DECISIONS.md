@@ -5,7 +5,7 @@
 ## Decided
 - **Language:** Julia for the solver (Laurence, 16 Oct). The baseline is ported in `model/julia/ChallengeModel.jl` and matches the Python prototype (`check_against_python.jl`). Python stays for figures for now.
 
-## Open: continuous inflation or whole notches?
+## Agreed 16 Oct: continuous inflation in the theory, whole notches in simulations
 
 ![Whole notches](figures/figD1_whole_notches.png)
 
@@ -13,7 +13,7 @@
 - **What changes in the predictions (panel b).** Almost nothing. Measured gaps are whole notches either way, because the SVO's view is rounded too. Both versions predict the same spike at 2 and missing mass at 3 and above.
 - **Recommendation:** continuous in the theory, whole notches in the simulations and calibration. This is standard in the rating-theory literature, and the paper can show panel (b) to make the point that nothing hinges on it.
 
-## Open: add agency precision now, or hold?
+## Agreed 16 Oct: hold agency precision, add it as Stage 2b
 
 Here the agency no longer knows true quality exactly. It sees θ plus its own error (sd shown on the x-axis), then adds k.
 

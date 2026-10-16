@@ -185,7 +185,7 @@ flowchart LR
 | Stage | What we add | What we get out | Status |
 |---|---|---|---|
 | 0 | One agency, one bond, no check | Inflation $k_0 = b/\gamma$; link to Opp–Opp–Harris | sketched (this note) |
-| 1 | SVO view with noise $\sigma$, threshold $\tau$, penalty $L$ | Optimal $k^*$; proof it sits below $\tau$; how $k^*$ moves with $\sigma$, $\tau$, $L$ | numbers done, proofs next |
+| 1 | SVO view with noise $\sigma$, threshold $\tau$, penalty $L$ | Optimal $k^*$; safety margin; comply or defy; how $k^*$ moves ([STAGE1.md](STAGE1.md)) | done |
 | 2 | Many deals; small and large agencies | Bunching and the measured-gap distribution; tier gap shrinks | simulated (Fig. 4) |
 | 3 | Regulator's welfare $W$ | Best $\tau$; threshold vs haircut; value of publishing the SVO view | next |
 | 4 | Insurer picks small or large agency; agency-level recognition | Shopping; rating-level challenge vs agency-level eligibility | later |
@@ -208,4 +208,4 @@ flowchart LR
 4. **Shopping (Stage 4):** after the rule, some deals move to agencies with the lowest penalty $L$.
 
 ## 10. Modelling choices
-Language: Julia (decided 16 Oct). The open choices on whole notches and agency precision are set out with figures in [DECISIONS.md](DECISIONS.md).
+Agreed 16 Oct: Julia for the solver; continuous inflation in the theory with whole notches in simulations; agency precision added later as Stage 2b. Details and figures: [DECISIONS.md](DECISIONS.md).

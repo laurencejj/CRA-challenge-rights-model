@@ -174,6 +174,7 @@ ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
       <div class="ctl"><label for="sSig">SVO noise σ <output id="oSig"></output></label><input id="sSig" type="range" min="0.1" max="2.5" step="0.05" value="0.5"><small>Notches of error in the SVO's own view.</small></div>
       <div class="ctl"><label for="sL">Penalty if challenged L <output id="oL"></output></label><input id="sL" type="range" min="0" max="6" step="0.1" value="2"><small>In units of one notch of fee.</small></div>
       <div class="ctl"><label for="sTau">Threshold τ <output id="oTau"></output></label><input id="sTau" type="range" min="1" max="5" step="0.5" value="3"><small>The NAIC rule uses 3 notches.</small></div>
+      <div class="ctl"><label for="sQ">Enforcement q <output id="oQ"></output></label><input id="sQ" type="range" min="0.02" max="1" step="0.01" value="1"><small>Chance a challenge is upheld. Try 0.05 with k₀ = 6.</small></div>
     </div>
     <div class="grid2">
       <div style="min-width:0"><svg id="payoff" viewBox="0 0 440 300" role="img" aria-label="Agency payoff before and after the rule"></svg>
@@ -219,7 +220,7 @@ ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
   </div>
   <div class="stages">
     <div class="stage"><div class="n">Stage 0</div><div class="t">One bond, no check</div><div class="d">k₀ = b/γ. Links to Opp, Opp and Harris (2013).</div><span class="pill done">sketched</span></div>
-    <div class="stage"><div class="n">Stage 1</div><div class="t">Add the SVO check</div><div class="d">Prove k* sits below τ; how it moves with σ, τ and L.</div><span class="pill next">proofs next</span></div>
+    <div class="stage"><div class="n">Stage 1</div><div class="t">Add the SVO check</div><div class="d">k* below k₀; the safety margin; comply or defy; what moves k*.</div><span class="pill done">done</span></div>
     <div class="stage"><div class="n">Stage 2</div><div class="t">Many deals, two tiers</div><div class="d">Bunching, measured gaps, tier convergence. Predictions for the 2027 filings.</div><span class="pill done">simulated</span></div>
     <div class="stage"><div class="n">Stage 3</div><div class="t">Regulator's design</div><div class="d">Best τ; threshold vs graduated haircut; should the SVO publish its view?</div><span class="pill next">next</span></div>
     <div class="stage"><div class="n">Stage 4</div><div class="t">Insurer picks the agency</div><div class="d">Shopping across tiers; challenging single ratings vs de-recognising an agency.</div><span class="pill later">later</span></div>
@@ -248,7 +249,7 @@ ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
 
 <section id="choices">
   <div class="col" style="display:flex;flex-direction:column;gap:12px">
-    <div class="eyebrow">Step 8 · Two open choices</div>
+    <div class="eyebrow">Step 8 · Two modelling choices, agreed 16 Oct</div>
     <h2>What each choice changes</h2>
     <p>Both charts follow the sliders in Step 4, so you can test the choices yourself.</p>
   </div>
@@ -261,7 +262,7 @@ ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
         <li><b>Theory:</b> continuous k moves smoothly with σ, so each result is a clean derivative. Whole notches jump, and can even move back up, so proofs turn into case-by-case comparisons.</li>
         <li><b>Data:</b> almost no difference. Measured gaps are whole notches either way, and both versions predict a spike at 2 with missing mass at 3 and above.</li>
       </ul>
-      <span class="pill next">recommend: continuous theory, whole notches in simulations</span>
+      <span class="pill done">agreed: continuous theory, whole notches in simulations</span>
     </div>
     <div class="panel">
       <h3>Agency precision: now or later?</h3>
@@ -271,9 +272,29 @@ ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
         <li><b>Here the agency sees true quality with its own error.</b> Without the rule that error costs it nothing (flat grey line). With the rule every notch of error costs it, so <b>the challenge right is what makes accuracy pay</b>.</li>
         <li>If precision is fixed it acts much like extra SVO noise. The real result comes when the agency chooses how much to spend on accuracy, which links to π in Paper 1.</li>
       </ul>
-      <span class="pill next">recommend: hold until the Stage 1 proofs, then add as Stage 2b</span>
+      <span class="pill done">agreed: add as Stage 2b, after Stage 1</span>
     </div>
   </div>
+</section>
+
+<section id="stage1">
+  <div class="col" style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Step 9 · Stage 1 results</div>
+    <h2>Comply or defy</h2>
+    <p>Stage 1 proves five things about the agency's choice. The big new one is the map below. When enforcement is weak, the most valuable deals stop bunching below the line. They inflate far above it and accept a small chance of removal. The map follows the Step 4 sliders, and the dot is the deal you set there.</p>
+  </div>
+  <div class="panel">
+    <svg id="regime" viewBox="0 0 880 330" role="img" aria-label="Map of comply and defy regimes by deal value and enforcement"></svg>
+    <div class="legend"><span style="--c:var(--ink)">boundary as SVO noise goes to 0 (formula)</span><span style="--c:var(--mute)">boundary at the current SVO noise</span></div>
+  </div>
+  <div class="stages">
+    <div class="stage"><div class="n">Result 1</div><div class="t">There is always a best choice</div><div class="d">It is above zero unless honest ratings are already at risk.</div></div>
+    <div class="stage"><div class="n">Result 2</div><div class="t">The rule always lowers inflation</div><div class="d">k* &lt; k₀ for every deal. Deals far below the line barely move.</div></div>
+    <div class="stage"><div class="n">Result 3</div><div class="t">The safety margin</div><div class="d">About σ√(2 ln(…)): a sharp SVO lets agencies creep up to the line.</div></div>
+    <div class="stage"><div class="n">Result 4</div><div class="t">Comply or defy</div><div class="d">Below an enforcement level q̂, high-value deals jump far above the line.</div></div>
+    <div class="stage"><div class="n">Result 5</div><div class="t">What moves k*</div><div class="d">τ almost one for one; q and σ down; L a little; deal value barely, which is why deals bunch.</div></div>
+  </div>
+  <p class="note col">Proofs and figures: docs/STAGE1.md in the repo. Numerical checks: model/julia/stage1.jl.</p>
 </section>
 
 </div>
@@ -337,10 +358,10 @@ function axes(svg,W,H,m,xr,yr,xt,yt,xlab,ylab){
 }
 function line(svg,pts,X,Y,attrs){const d=pts.map((p,i)=>(i?"L":"M")+X(p[0]).toFixed(1)+","+Y(p[1]).toFixed(1)).join("");return el("path",Object.assign({d,fill:"none"},attrs),svg);}
 
-const B=1, Q=1;
+const B=1; let Q=1;
 function oneDeal(){
   const k0=+$("sK0").value,sig=+$("sSig").value,L=+$("sL").value,tau=+$("sTau").value;
-  $("oK0").textContent=k0.toFixed(1);$("oSig").textContent=sig.toFixed(2);$("oL").textContent=L.toFixed(1);$("oTau").textContent=tau.toFixed(1);
+  $("oK0").textContent=k0.toFixed(1);$("oSig").textContent=sig.toFixed(2);$("oL").textContent=L.toFixed(1);$("oTau").textContent=tau.toFixed(1);Q=+$("sQ").value;$("oQ").textContent=Q.toFixed(2);
   const g=B/k0, ks=bestK(B,g,L,tau,sig,Q);
   // payoff chart
   let svg=$("payoff");svg.innerHTML="";
@@ -437,9 +458,37 @@ function choices(){
   line(svg,noR,A2.X,A2.Y,{stroke:"var(--mute)","stroke-width":2,"stroke-dasharray":"6 4"});
   line(svg,withR,A2.X,A2.Y,{stroke:"var(--svo)","stroke-width":2.6});
 }
+// ---------- regime map ----------
+function regimeMap(){
+  const k0=+$("sK0").value,sig=+$("sSig").value,L=+$("sL").value,tau=+$("sTau").value;
+  const svg=$("regime");svg.innerHTML="";
+  const W=880,H=330,m={l:52,r:14,t:12,b:40};
+  const xr=[tau+0.1,9];
+  const xt=[];for(let v=Math.ceil(tau+0.1);v<=9;v++)xt.push(v);
+  const A=axes(svg,W,H,m,xr,[0,0.5],xt,[0,0.1,0.2,0.3,0.4,0.5],"pre-rule inflation k₀ (how much the deal is worth inflating)","enforcement q");
+  const qhat=k=>{const g=1/k,Aa=B*B/(2*g),C=B*tau-g*tau*tau/2,B2=2*Aa+L;return Math.max(0,(B2-Math.sqrt(B2*B2-4*Aa*(Aa-C)))/(2*Aa));};
+  const lim=[],num=[];
+  for(let i=0;i<=30;i++){const k=xr[0]+i*(9-xr[0])/30;
+    lim.push([k,Math.min(0.5,qhat(k))]);
+    let lo=0,hi=0.6;for(let it=0;it<9;it++){const mid=(lo+hi)/2;if(bestK(B,1/k,L,tau,sig,mid)>tau)lo=mid;else hi=mid;}
+    num.push([k,Math.min(0.5,lo)]);
+  }
+  const area="M"+A.X(xr[0])+","+A.Y(0)+lim.map(p=>"L"+A.X(p[0]).toFixed(1)+","+A.Y(p[1]).toFixed(1)).join("")+"L"+A.X(9)+","+A.Y(0)+"Z";
+  el("path",{d:area,fill:"var(--agency)",opacity:0.16},svg);
+  line(svg,num,A.X,A.Y,{stroke:"var(--mute)","stroke-width":1.6,"stroke-dasharray":"5 4"});
+  line(svg,lim,A.X,A.Y,{stroke:"var(--ink)","stroke-width":2.4});
+  el("text",{x:A.X(xr[0]+0.4),y:A.Y(0.42),style:"fill:var(--svo);font-weight:600;font-size:15px"},svg,"COMPLY: bunch just below τ");
+  el("text",{x:A.X(8.9),y:A.Y(0.03),"text-anchor":"end",style:"fill:var(--agency);font-weight:600;font-size:15px"},svg,"DEFY: inflate far above τ");
+  if(k0>xr[0]&&Q<=0.5){
+    el("circle",{cx:A.X(k0),cy:A.Y(Q),r:7,fill:"var(--trip)",stroke:"var(--panel)","stroke-width":2},svg);
+    el("text",{x:A.X(k0)+10,y:A.Y(Q)-10,style:"fill:var(--trip);font-weight:600"},svg,"your deal");
+  }else{
+    el("text",{x:A.X(xr[0]+0.4),y:A.Y(0.36),style:"fill:var(--mute)"},svg,k0<=xr[0]?"Your deal (k₀ ≤ τ+0.1) never defies: set k₀ above τ to place it.":"Your deal has q > 0.5: deep in the comply region.");
+  }
+}
 let pending=null;
-function update(){oneDeal();if(pending)cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>{manyDeals();choices();pending=null;});}
-["sK0","sSig","sL","sTau"].forEach(id=>$(id).addEventListener("input",update));
-drawLadder();oneDeal();manyDeals();choices();
+function update(){oneDeal();if(pending)cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>{manyDeals();choices();regimeMap();pending=null;});}
+["sK0","sSig","sL","sTau","sQ"].forEach(id=>$(id).addEventListener("input",update));
+drawLadder();oneDeal();manyDeals();choices();regimeMap();
 })();
 </script>

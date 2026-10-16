@@ -20,17 +20,27 @@ function payoff(k; b=1.0, γ=1/3, L=2.0, τ=3.0, σ=0.75, q=1.0)
     return b * k * (1 - P) - L * P - 0.5 * γ * k^2
 end
 
-"""Optimal inflation by grid search on [0, 10]; `rule=false` gives k₀ = b/γ."""
+"""
+Optimal inflation: grid search on [0, 10] for the global maximum (U can have two
+local maxima), then golden-section refinement around it. `rule=false` gives k₀ = b/γ.
+"""
 function best_k(; b=1.0, γ=1/3, L=2.0, τ=3.0, σ=0.75, q=1.0, rule=true, grid=0:0.002:10)
     rule || return b / γ
+    f(k) = payoff(k; b, γ, L, τ, σ, q)
     best, kbest = -Inf, 0.0
     for k in grid
-        u = payoff(k; b, γ, L, τ, σ, q)
+        u = f(k)
         if u > best
             best, kbest = u, k
         end
     end
-    return kbest
+    lo, hi = max(0.0, kbest - step(grid)), kbest + step(grid)
+    g = (sqrt(5) - 1) / 2
+    for _ in 1:60
+        a, c = hi - g * (hi - lo), lo + g * (hi - lo)
+        f(a) > f(c) ? (hi = c) : (lo = a)
+    end
+    return (lo + hi) / 2
 end
 
 false_challenge_rate(; τ=3.0, σ=0.75, q=1.0) = challenge_prob(0.0; τ, σ, q)
