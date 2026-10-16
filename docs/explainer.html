@@ -1,0 +1,392 @@
+<title>Challenge Rights Model</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single reading column (about 70ch) with wide figure panels that break out to 960px. */
+:root{
+  --paper:#f6f8fa; --panel:#ffffff; --ink:#18222f; --mute:#5d6878; --line:#d8dee6;
+  --svo:#2a66ad; --agency:#c9711c; --trip:#b8382c; --good:#2d7d55; --soft:#e9eff7;
+  --display:"Newsreader", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11161d; --panel:#18202a; --ink:#e6ebf1; --mute:#9aa6b5; --line:#2c3846;
+  --svo:#6aa5ec; --agency:#eb9a4c; --trip:#ec6f62; --good:#5cc08c; --soft:#1d2a3a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11161d; --panel:#18202a; --ink:#e6ebf1; --mute:#9aa6b5; --line:#2c3846;
+  --svo:#6aa5ec; --agency:#eb9a4c; --trip:#ec6f62; --good:#5cc08c; --soft:#1d2a3a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 64px}
+.wrap{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+.col{max-width:68ch}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(2rem,5vw,2.9rem)}
+h2{font-size:1.65rem}
+h3{font-size:1.15rem;font-family:var(--body);font-weight:600}
+p{margin:0}
+section{display:flex;flex-direction:column;gap:16px}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.lede{font-size:1.15rem;color:var(--ink)}
+.mute{color:var(--mute)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+@media (max-width:760px){.grid2{grid-template-columns:minmax(0,1fr)}}
+svg{width:100%;height:auto;display:block;overflow:visible}
+svg text{font-family:var(--body);fill:var(--mute);font-size:12px}
+.eq{font-family:var(--mono);font-size:.95rem;background:var(--soft);padding:12px 14px;border-radius:8px;overflow-x:auto;white-space:nowrap}
+.eq b{font-weight:500}
+.c-svo{color:var(--svo)} .c-ag{color:var(--agency)} .c-trip{color:var(--trip)} .c-good{color:var(--good)}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 20px}
+.ctl{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ctl label{font-size:.88rem;display:flex;justify-content:space-between;gap:8px}
+.ctl output{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.ctl small{color:var(--mute);font-size:.78rem;line-height:1.35}
+input[type=range]{width:100%;accent-color:var(--svo)}
+input[type=range]:focus-visible{outline:2px solid var(--svo);outline-offset:3px}
+.readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.ro{border-top:2px solid var(--line);padding-top:6px}
+.ro .v{font-family:var(--mono);font-size:1.4rem;font-variant-numeric:tabular-nums}
+.ro .k{font-size:.8rem;color:var(--mute)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:.8rem;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.tablebox{overflow-x:auto}
+.stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;counter-reset:st}
+.stage{border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--panel);display:flex;flex-direction:column;gap:6px}
+.stage .n{font-family:var(--mono);font-size:.75rem;color:var(--mute)}
+.stage .t{font-weight:600;font-size:.95rem;line-height:1.3}
+.stage .d{font-size:.84rem;color:var(--mute);line-height:1.4}
+.pill{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:2px 7px;border-radius:99px;border:1px solid currentColor;align-self:flex-start}
+.done{color:var(--good)} .next{color:var(--svo)} .later{color:var(--mute)}
+.ladder-pick{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:.9rem}
+select{font:inherit;padding:4px 8px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.82rem;color:var(--mute)}
+.legend span::before{content:"";display:inline-block;width:14px;height:3px;margin-right:6px;vertical-align:middle;background:var(--c)}
+.note{font-size:.82rem;color:var(--mute)}
+ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+</style>
+
+<div class="wrap">
+
+<header class="col" style="display:flex;flex-direction:column;gap:14px">
+  <div class="eyebrow">Model primer · challenge rights paper · draft 16 Oct 2026</div>
+  <h1>What happens when the regulator can say "that rating is too high"?</h1>
+  <p class="lede">US life insurers can set their capital using ratings they buy privately. Since 2026 the NAIC's credit team can challenge a rating that sits 3 or more notches above its own view. This page builds our model of that rule from zero. Move the sliders to see each piece work.</p>
+</header>
+
+<section>
+  <div class="col" style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Step 1 · The cast</div>
+    <h2>Three players and one missing referee</h2>
+    <p>The insurer buys a private bond and pays an agency to rate it. The rating sets the insurer's capital. Everyone on the private side gains from a high rating, so only the regulator's check pushes the other way.</p>
+  </div>
+  <div class="panel">
+    <svg viewBox="0 0 900 270" role="img" aria-label="Flow diagram of insurer, rating agency and SVO">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--mute)"/></marker>
+      <marker id="arT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="var(--trip)"/></marker></defs>
+      <rect x="20" y="95" width="200" height="80" rx="10" fill="var(--soft)" stroke="var(--line)"/>
+      <text x="120" y="128" text-anchor="middle" style="fill:var(--ink);font-weight:600;font-size:15px">Life insurer</text>
+      <text x="120" y="150" text-anchor="middle">wants a HIGH rating</text>
+      <rect x="350" y="10" width="200" height="80" rx="10" fill="var(--soft)" stroke="var(--agency)" stroke-width="1.5"/>
+      <text x="450" y="43" text-anchor="middle" style="fill:var(--agency);font-weight:600;font-size:15px">Rating agency</text>
+      <text x="450" y="65" text-anchor="middle">chooses inflation k</text>
+      <rect x="350" y="180" width="200" height="80" rx="10" fill="var(--soft)" stroke="var(--svo)" stroke-width="1.5"/>
+      <text x="450" y="213" text-anchor="middle" style="fill:var(--svo);font-weight:600;font-size:15px">NAIC SVO</text>
+      <text x="450" y="235" text-anchor="middle">own noisy view s</text>
+      <rect x="680" y="95" width="200" height="80" rx="10" fill="var(--soft)" stroke="var(--line)"/>
+      <text x="780" y="128" text-anchor="middle" style="fill:var(--ink);font-weight:600;font-size:15px">Capital charge</text>
+      <text x="780" y="150" text-anchor="middle">set by the designation</text>
+      <path d="M220,110 C280,80 300,55 348,50" fill="none" stroke="var(--mute)" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="240" y="62">pays a fee</text>
+      <path d="M350,70 C300,90 270,110 222,125" fill="none" stroke="var(--mute)" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="268" y="128">rating r</text>
+      <path d="M220,160 C280,190 300,215 348,220" fill="none" stroke="var(--mute)" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="200" y="215">files the rating</text>
+      <path d="M552,220 C620,215 650,190 690,176" fill="none" stroke="var(--mute)" stroke-width="1.5" marker-end="url(#ar)"/>
+      <text x="610" y="240">maps it to 1.A … 6</text>
+      <path d="M470,178 L470,92" fill="none" stroke="var(--trip)" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#arT)"/>
+      <text x="480" y="140" style="fill:var(--trip);font-weight:600">challenge if r − s ≥ 3</text>
+    </svg>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Step 2 · Why a notch is worth money</div>
+    <h2>The capital ladder</h2>
+    <p>Each NAIC designation carries a capital charge. Pick a bond's true quality and how many notches the agency adds, and see how much capital the insurer saves.</p>
+  </div>
+  <div class="panel">
+    <div class="ladder-pick">
+      <label for="trueQ">True quality</label>
+      <select id="trueQ"></select>
+      <label for="infl">Inflation</label>
+      <select id="infl"><option value="1">1 notch</option><option value="2">2 notches</option><option value="3" selected>3 notches</option><option value="4">4 notches</option></select>
+      <span id="ladderOut" style="font-family:var(--mono)"></span>
+    </div>
+    <svg id="ladder" viewBox="0 0 900 300" role="img" aria-label="Bar chart of capital charge by NAIC designation"></svg>
+    <p class="note">Life insurer capital charge, pre-tax, by NAIC designation (factors adopted for year-end 2021). Source: Mayer Brown, NAIC investment-related developments, Dec 2024, slide 10.</p>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Step 3 · The building blocks</div>
+    <h2>Four lines of algebra</h2>
+    <p>Everything is measured in notches. The agency knows a bond's true quality θ and chooses how far to inflate it. The SVO sees the bond too, but with error.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>The rating and the SVO's view</h3>
+      <div class="eq">r = θ + <b class="c-ag">k</b> &nbsp;&nbsp;·&nbsp;&nbsp; s = θ + <b class="c-svo">ε</b>,&nbsp; ε ~ N(0, <b class="c-svo">σ</b>²)</div>
+      <p><b class="c-ag">k</b> is inflation. <b class="c-svo">σ</b> is how noisy the SVO's own analysis is. The SVO measures the gap g = r − s = k − ε.</p>
+    </div>
+    <div class="panel">
+      <h3>The tripwire</h3>
+      <div class="eq">P(k) = q · Φ( (k − <b class="c-trip">τ</b>) / <b class="c-svo">σ</b> )</div>
+      <p>A challenge starts when the gap reaches <b class="c-trip">τ</b> = 3 and is upheld with probability q. Noise turns a hard line into a fuzzy one.</p>
+    </div>
+    <div class="panel" style="grid-column:1/-1">
+      <h3>The agency's payoff</h3>
+      <div class="eq">U(k) = b·k·(1 − P(k)) &nbsp;−&nbsp; L·P(k) &nbsp;−&nbsp; ½·γ·k²</div>
+      <ul>
+        <li><b>b·k·(1 − P)</b>: the fee gain from inflating, kept only if the rating survives.</li>
+        <li><b>L·P</b>: the agency's loss if a challenge is upheld (lost client, scrutiny, risk to its NAIC recognition).</li>
+        <li><b>½·γ·k²</b>: everyday reputation cost. Large agencies have a higher γ than small ones.</li>
+        <li>Without the rule the agency picks k₀ = b/γ. We set this to match the observed pre-rule gaps.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Step 4 · One deal</div>
+    <h2>Where the agency stops</h2>
+    <p>The grey dashed curve is the agency's payoff before the rule, and the blue curve is its payoff after. The agency picks the peak of the blue curve. Try a very sharp SVO (σ near 0.2) and then a noisy one (σ above 1.5).</p>
+  </div>
+  <div class="panel">
+    <div class="controls">
+      <div class="ctl"><label for="sK0">Pre-rule inflation k₀ <output id="oK0"></output></label><input id="sK0" type="range" min="0.5" max="6" step="0.1" value="4.5"><small>How far the agency would go with no check.</small></div>
+      <div class="ctl"><label for="sSig">SVO noise σ <output id="oSig"></output></label><input id="sSig" type="range" min="0.1" max="2.5" step="0.05" value="0.5"><small>Notches of error in the SVO's own view.</small></div>
+      <div class="ctl"><label for="sL">Penalty if challenged L <output id="oL"></output></label><input id="sL" type="range" min="0" max="6" step="0.1" value="2"><small>In units of one notch of fee.</small></div>
+      <div class="ctl"><label for="sTau">Threshold τ <output id="oTau"></output></label><input id="sTau" type="range" min="1" max="5" step="0.5" value="3"><small>The NAIC rule uses 3 notches.</small></div>
+    </div>
+    <div class="grid2">
+      <div style="min-width:0"><svg id="payoff" viewBox="0 0 440 300" role="img" aria-label="Agency payoff before and after the rule"></svg>
+        <div class="legend"><span style="--c:var(--mute)">before the rule</span><span style="--c:var(--svo)">after the rule</span><span style="--c:var(--trip)">threshold τ</span></div></div>
+      <div style="min-width:0"><svg id="trip" viewBox="0 0 440 300" role="img" aria-label="Probability of a challenge by inflation"></svg>
+        <div class="legend"><span style="--c:var(--svo)">chance the rating is challenged, P(k)</span></div></div>
+    </div>
+    <div class="readouts">
+      <div class="ro"><div class="v" id="rK">–</div><div class="k">chosen inflation k* (notches)</div></div>
+      <div class="ro"><div class="v" id="rM">–</div><div class="k">safety margin below τ</div></div>
+      <div class="ro"><div class="v" id="rP">–</div><div class="k">chance this rating is challenged</div></div>
+      <div class="ro"><div class="v c-trip" id="rF">–</div><div class="k">honest ratings wrongly challenged</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Step 5 · Many deals</div>
+    <h2>The bunching prediction</h2>
+    <p>Now take 6,000 simulated deals. 86% are rated by small agencies, whose pre-rule gap averages about 3 notches, and 14% by large ones, about 1.9. These shares and gaps come from the NAIC's 2023 sample. The left chart shows what agencies really do. The right chart shows what we will see in the data, which is the gap against the SVO's noisy view in whole notches. The noise, penalty and threshold sliders above also drive these charts.</p>
+  </div>
+  <div class="panel">
+    <div class="grid2">
+      <div style="min-width:0"><h3>True inflation k</h3><svg id="histK" viewBox="0 0 440 280" role="img" aria-label="Histogram of inflation before and after"></svg></div>
+      <div style="min-width:0"><h3>Measured gap, whole notches</h3><svg id="histG" viewBox="0 0 440 280" role="img" aria-label="Histogram of measured gaps before and after"></svg></div>
+    </div>
+    <div class="legend"><span style="--c:var(--mute)">before the rule</span><span style="--c:var(--svo)">after the rule</span></div>
+    <div class="readouts">
+      <div class="ro"><div class="v" id="hMean">–</div><div class="k">average inflation, before → after</div></div>
+      <div class="ro"><div class="v" id="hTier">–</div><div class="k">small minus large agency gap, before → after</div></div>
+      <div class="ro"><div class="v" id="hAbove">–</div><div class="k">measured gap ≥ τ, before → after</div></div>
+    </div>
+    <p class="note">The surprise in this model: a sharper SVO lets agencies sit closer to the line, so average inflation is higher when σ is small. A noisier SVO deters more but challenges more honest ratings. That trade-off drives the design question in Stage 3.</p>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Step 6 · The plan</div>
+    <h2>What we build, in order</h2>
+    <p>Each stage adds one thing to the model above. Stages 0 to 2 are on this page already. Stage 3 is the paper's main result.</p>
+  </div>
+  <div class="stages">
+    <div class="stage"><div class="n">Stage 0</div><div class="t">One bond, no check</div><div class="d">k₀ = b/γ. Links to Opp, Opp and Harris (2013).</div><span class="pill done">sketched</span></div>
+    <div class="stage"><div class="n">Stage 1</div><div class="t">Add the SVO check</div><div class="d">Prove k* sits below τ; how it moves with σ, τ and L.</div><span class="pill next">proofs next</span></div>
+    <div class="stage"><div class="n">Stage 2</div><div class="t">Many deals, two tiers</div><div class="d">Bunching, measured gaps, tier convergence. Predictions for the 2027 filings.</div><span class="pill done">simulated</span></div>
+    <div class="stage"><div class="n">Stage 3</div><div class="t">Regulator's design</div><div class="d">Best τ; threshold vs graduated haircut; should the SVO publish its view?</div><span class="pill next">next</span></div>
+    <div class="stage"><div class="n">Stage 4</div><div class="t">Insurer picks the agency</div><div class="d">Shopping across tiers; challenging single ratings vs de-recognising an agency.</div><span class="pill later">later</span></div>
+    <div class="stage"><div class="n">Stage 5</div><div class="t">Calibrate and stress</div><div class="d">Capital shortfall; many removals at once in a downturn.</div><span class="pill later">later</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Step 7 · Your earlier model</div>
+    <h2>How this maps onto Paper 1</h2>
+  </div>
+  <div class="tablebox panel" style="padding:8px 12px">
+    <table>
+      <thead><tr><th>Paper 1</th><th>This paper</th><th>What changes</th></tr></thead>
+      <tbody>
+        <tr><td>Posture: Lenient, Honest, Conservative</td><td>Inflation k, chosen continuously</td><td>Posture becomes "how many notches"</td></tr>
+        <tr><td>Verification d, a constant</td><td>P(k), rising with the size of the error</td><td>Bigger errors are more likely to be caught</td></tr>
+        <tr><td>Penalty χ on optimistic errors</td><td>L plus lost capital relief</td><td>A regulator triggers the penalty, not a default</td></tr>
+        <tr><td>Precision π</td><td>SVO noise σ</td><td>Precision now sits with the checker</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note col">Parameter values on this page are illustrative until Stage 5. The same model and figures are in the repo: docs/MODEL_PLAN.md and model/core.py in CRA-challenge-rights-model.</p>
+</section>
+
+</div>
+
+<script>
+(function(){
+const RBC=[["1.A","AAA",0.158],["1.B","AA+",0.271],["1.C","AA",0.419],["1.D","AA-",0.523],["1.E","A+",0.657],["1.F","A",0.816],["1.G","A-",1.016],["2.A","BBB+",1.261],["2.B","BBB",1.523],["2.C","BBB-",2.168],["3.A","BB+",3.151],["3.B","BB",4.537],["3.C","BB-",6.017],["4.A","B+",7.386],["4.B","B",9.535],["4.C","B-",12.428],["5.A","CCC+",16.942],["5.B","CCC",23.798],["5.C","CCC-",30.0],["6","<CCC-",30.0]];
+const NS="http://www.w3.org/2000/svg";
+const $=id=>document.getElementById(id);
+function el(tag,attrs,parent,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;}
+function erf(x){const s=Math.sign(x);x=Math.abs(x);const t=1/(1+0.3275911*x);const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return s*y;}
+const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
+function randn(rng){let u=0,v=0;while(u===0)u=rng();while(v===0)v=rng();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
+
+// ---------- ladder ----------
+const tq=$("trueQ");
+RBC.slice(7,16).forEach((r,i)=>{const o=document.createElement("option");o.value=i+7;o.textContent=r[0]+" ("+r[1]+")";if(r[0]==="3.B")o.selected=true;tq.appendChild(o);});
+function drawLadder(){
+  const svg=$("ladder");svg.innerHTML="";
+  const W=900,H=300,m={l:46,r:10,t:16,b:46},iw=W-m.l-m.r,ih=H-m.t-m.b,bw=iw/20;
+  const y=v=>m.t+ih-(v/32)*ih;
+  for(let v=0;v<=30;v+=10){el("line",{x1:m.l,x2:W-m.r,y1:y(v),y2:y(v),stroke:"var(--line)"},svg);el("text",{x:m.l-8,y:y(v)+4,"text-anchor":"end"},svg,v+"%");}
+  const ti=+tq.value, k=+$("infl").value, ri=Math.max(0,ti-k);
+  RBC.forEach((r,i)=>{
+    const x=m.l+i*bw+bw*0.14, w=bw*0.72;
+    let fill=i<10?"var(--svo)":"var(--agency)", op=0.35;
+    if(i===ti||i===ri)op=1;
+    el("rect",{x:x,y:y(r[2]),width:w,height:Math.max(0.5,y(0)-y(r[2])),fill:fill,opacity:op,rx:2},svg);
+    el("text",{x:x+w/2,y:H-m.b+16,"text-anchor":"middle",style:"font-size:10.5px"},svg,r[0]);
+    el("text",{x:x+w/2,y:H-m.b+30,"text-anchor":"middle",style:"font-size:10px"},svg,r[1]);
+  });
+  const xt=m.l+ti*bw+bw/2, xr=m.l+ri*bw+bw/2;
+  const yy=Math.min(y(RBC[ti][2]),y(RBC[ri][2]))-26;
+  el("path",{d:`M${xt},${y(RBC[ti][2])-6} C${xt},${yy} ${xr},${yy} ${xr},${y(RBC[ri][2])-8}`,fill:"none",stroke:"var(--trip)","stroke-width":2.2},svg);
+  el("circle",{cx:xr,cy:y(RBC[ri][2])-8,r:3.5,fill:"var(--trip)"},svg);
+  el("text",{x:xt+6,y:y(RBC[ti][2])-10,style:"fill:var(--ink);font-weight:600"},svg,"true");
+  el("text",{x:xr-6,y:y(RBC[ri][2])-14,"text-anchor":"end",style:"fill:var(--trip);font-weight:600"},svg,"rated");
+  el("line",{x1:m.l+10*bw,x2:m.l+10*bw,y1:m.t,y2:y(0),stroke:"var(--mute)","stroke-dasharray":"3 4"},svg);
+  el("text",{x:m.l+10*bw-6,y:m.t+10,"text-anchor":"end"},svg,"investment grade");
+  el("text",{x:m.l+10*bw+6,y:m.t+10},svg,"high yield");
+  const a=RBC[ti][2],b=RBC[ri][2];
+  $("ladderOut").textContent=`capital ${a.toFixed(2)}% → ${b.toFixed(2)}% · ${(100*(1-b/a)).toFixed(0)}% less`;
+}
+tq.addEventListener("change",drawLadder);$("infl").addEventListener("change",drawLadder);
+
+// ---------- model ----------
+const GRID=[];for(let k=0;k<=10.0001;k+=0.01)GRID.push(k);
+const P=(k,tau,sig,q)=>q*Phi((k-tau)/sig);
+const U=(k,b,g,L,tau,sig,q)=>{const p=P(k,tau,sig,q);return b*k*(1-p)-L*p-0.5*g*k*k;};
+function bestK(b,g,L,tau,sig,q){let bk=0,bu=-1e9;for(const k of GRID){const u=U(k,b,g,L,tau,sig,q);if(u>bu){bu=u;bk=k;}}return bk;}
+
+function axes(svg,W,H,m,xr,yr,xt,yt,xlab,ylab){
+  const iw=W-m.l-m.r,ih=H-m.t-m.b;
+  const X=v=>m.l+(v-xr[0])/(xr[1]-xr[0])*iw, Y=v=>m.t+ih-(v-yr[0])/(yr[1]-yr[0])*ih;
+  yt.forEach(v=>{el("line",{x1:m.l,x2:W-m.r,y1:Y(v),y2:Y(v),stroke:"var(--line)"},svg);el("text",{x:m.l-6,y:Y(v)+4,"text-anchor":"end"},svg,String(v));});
+  xt.forEach(v=>{el("text",{x:X(v),y:H-m.b+16,"text-anchor":"middle"},svg,String(v));});
+  el("text",{x:m.l+iw/2,y:H-4,"text-anchor":"middle"},svg,xlab);
+  if(ylab)el("text",{x:12,y:m.t+ih/2,"text-anchor":"middle",transform:`rotate(-90 12 ${m.t+ih/2})`},svg,ylab);
+  return {X,Y,iw,ih};
+}
+function line(svg,pts,X,Y,attrs){const d=pts.map((p,i)=>(i?"L":"M")+X(p[0]).toFixed(1)+","+Y(p[1]).toFixed(1)).join("");return el("path",Object.assign({d,fill:"none"},attrs),svg);}
+
+const B=1, Q=1;
+function oneDeal(){
+  const k0=+$("sK0").value,sig=+$("sSig").value,L=+$("sL").value,tau=+$("sTau").value;
+  $("oK0").textContent=k0.toFixed(1);$("oSig").textContent=sig.toFixed(2);$("oL").textContent=L.toFixed(1);$("oTau").textContent=tau.toFixed(1);
+  const g=B/k0, ks=bestK(B,g,L,tau,sig,Q);
+  // payoff chart
+  let svg=$("payoff");svg.innerHTML="";
+  const m={l:40,r:12,t:12,b:38},W=440,H=300;
+  const umax=Math.max(1, B*k0-0.5*g*k0*k0);
+  const ytop=Math.ceil(umax+0.5), ybot=-3;
+  const yt=[];for(let v=ybot;v<=ytop;v++)yt.push(v);
+  const A=axes(svg,W,H,m,[0,7],[ybot,ytop],[0,1,2,3,4,5,6,7],yt,"inflation k (notches)","payoff");
+  el("line",{x1:A.X(tau),x2:A.X(tau),y1:m.t,y2:H-m.b,stroke:"var(--trip)","stroke-dasharray":"4 4"},svg);
+  const pre=[],post=[];
+  for(let k=0;k<=7.0001;k+=0.05){pre.push([k,B*k-0.5*g*k*k]);post.push([k,Math.max(ybot,U(k,B,g,L,tau,sig,Q))]);}
+  line(svg,pre,A.X,A.Y,{stroke:"var(--mute)","stroke-width":2,"stroke-dasharray":"6 4"});
+  line(svg,post,A.X,A.Y,{stroke:"var(--svo)","stroke-width":2.6});
+  const k0c=Math.min(k0,7);
+  el("circle",{cx:A.X(k0c),cy:A.Y(B*k0c-0.5*g*k0c*k0c),r:5,fill:"var(--mute)"},svg);
+  el("circle",{cx:A.X(ks),cy:A.Y(U(ks,B,g,L,tau,sig,Q)),r:5.5,fill:"var(--svo)"},svg);
+  el("text",{x:A.X(ks),y:A.Y(U(ks,B,g,L,tau,sig,Q))-12,"text-anchor":"middle",style:"fill:var(--svo);font-weight:600"},svg,"k* = "+ks.toFixed(2));
+  el("text",{x:A.X(k0c),y:A.Y(B*k0c-0.5*g*k0c*k0c)-12,"text-anchor":"middle"},svg,"k₀ = "+k0.toFixed(1));
+  // tripwire chart
+  svg=$("trip");svg.innerHTML="";
+  const A2=axes(svg,W,H,m,[0,7],[0,1],[0,1,2,3,4,5,6,7],[0,0.25,0.5,0.75,1],"inflation k (notches)","P(k)");
+  el("line",{x1:A2.X(tau),x2:A2.X(tau),y1:m.t,y2:H-m.b,stroke:"var(--trip)","stroke-dasharray":"4 4"},svg);
+  const pc=[];for(let k=0;k<=7.0001;k+=0.03)pc.push([k,P(k,tau,sig,Q)]);
+  line(svg,pc,A2.X,A2.Y,{stroke:"var(--svo)","stroke-width":2.6});
+  el("circle",{cx:A2.X(ks),cy:A2.Y(P(ks,tau,sig,Q)),r:5.5,fill:"var(--svo)"},svg);
+  el("text",{x:A2.X(ks)-8,y:A2.Y(P(ks,tau,sig,Q))-10,"text-anchor":"end",style:"fill:var(--svo);font-weight:600"},svg,"agency sits here");
+  $("rK").textContent=ks.toFixed(2);
+  $("rM").textContent=(tau-ks).toFixed(2);
+  $("rP").textContent=(100*P(ks,tau,sig,Q)).toFixed(1)+"%";
+  $("rF").textContent=(100*P(0,tau,sig,Q)).toFixed(2)+"%";
+}
+
+// ---------- many deals ----------
+const N=6000, rng=mulberry(7), small=[], bdraw=[], eps=[];
+for(let i=0;i<N;i++){small.push(rng()<0.86);bdraw.push(Math.exp(0.35*randn(rng)));eps.push(randn(rng));}
+const GS=1/3.0, GL=1/1.9;
+function manyDeals(){
+  const sig=+$("sSig").value,L=+$("sL").value,tau=+$("sTau").value;
+  const bs=[];for(let i=0;i<=80;i++)bs.push(0.25+i*(3.5-0.25)/80);
+  const tab={};[GS,GL].forEach(g=>{tab[g]=bs.map(b=>bestK(b,g,L,tau,sig,Q));});
+  const interp=(g,b)=>{const t=tab[g];if(b<=bs[0])return t[0];if(b>=bs[80])return t[80];const j=Math.floor((b-bs[0])/(bs[1]-bs[0]));const w=(b-bs[j])/(bs[1]-bs[0]);return t[j]*(1-w)+t[j+1]*w;};
+  const k0=[],ks=[],g0=[],g1=[];
+  for(let i=0;i<N;i++){const g=small[i]?GS:GL;k0.push(bdraw[i]/g);ks.push(interp(g,bdraw[i]));g0.push(Math.round(k0[i]-sig*eps[i]));g1.push(Math.round(ks[i]-sig*eps[i]));}
+  const mean=a=>a.reduce((s,v)=>s+v,0)/a.length;
+  const tierGap=a=>{let s=0,ns=0,l=0,nl=0;a.forEach((v,i)=>{if(small[i]){s+=v;ns++;}else{l+=v;nl++;}});return s/ns-l/nl;};
+  $("hMean").textContent=mean(k0).toFixed(2)+" → "+mean(ks).toFixed(2);
+  $("hTier").textContent=tierGap(k0).toFixed(2)+" → "+tierGap(ks).toFixed(2);
+  const ab=a=>(100*a.filter(v=>v>=tau).length/N).toFixed(0)+"%";
+  $("hAbove").textContent=ab(g0)+" → "+ab(g1);
+  // hist of k
+  let svg=$("histK");svg.innerHTML="";
+  const W=440,H=280,m={l:40,r:10,t:10,b:36},nb=35,bw=7/nb;
+  const h0=new Array(nb).fill(0),h1=new Array(nb).fill(0);
+  k0.forEach(v=>{const j=Math.floor(v/bw);if(j>=0&&j<nb)h0[j]++;});ks.forEach(v=>{const j=Math.floor(v/bw);if(j>=0&&j<nb)h1[j]++;});
+  const ymax=Math.max(...h0,...h1)/N;const ytop=Math.ceil(ymax*20)/20;
+  const yt=[];for(let v=0;v<=ytop+1e-9;v+=ytop>0.3?0.1:0.05)yt.push(+v.toFixed(2));
+  const A=axes(svg,W,H,m,[0,7],[0,ytop],[0,1,2,3,4,5,6,7],yt,"inflation k (notches)","share");
+  h0.forEach((c,j)=>{el("rect",{x:A.X(j*bw)+0.5,y:A.Y(c/N),width:A.X(bw)-A.X(0)-1,height:A.Y(0)-A.Y(c/N),fill:"var(--mute)",opacity:0.45},svg);});
+  h1.forEach((c,j)=>{el("rect",{x:A.X(j*bw)+0.5,y:A.Y(c/N),width:A.X(bw)-A.X(0)-1,height:A.Y(0)-A.Y(c/N),fill:"var(--svo)",opacity:0.75},svg);});
+  el("line",{x1:A.X(tau),x2:A.X(tau),y1:m.t,y2:H-m.b,stroke:"var(--trip)","stroke-dasharray":"4 4"},svg);
+  // hist of measured gaps
+  svg=$("histG");svg.innerHTML="";
+  const gs=[];for(let v=-2;v<=8;v++)gs.push(v);
+  const c0=gs.map(v=>g0.filter(x=>x===v).length/N),c1=gs.map(v=>g1.filter(x=>x===v).length/N);
+  const gm=Math.max(...c0,...c1);const gtop=Math.ceil(gm*10)/10;
+  const gyt=[];for(let v=0;v<=gtop+1e-9;v+=0.1)gyt.push(+v.toFixed(1));
+  const A2=axes(svg,W,H,m,[-2.6,8.6],[0,gtop],gs,gyt,"rating minus SVO view (notches)","share");
+  gs.forEach((v,i)=>{
+    el("rect",{x:A2.X(v-0.38),y:A2.Y(c0[i]),width:A2.X(0.36)-A2.X(0),height:A2.Y(0)-A2.Y(c0[i]),fill:"var(--mute)",opacity:0.55},svg);
+    el("rect",{x:A2.X(v+0.02),y:A2.Y(c1[i]),width:A2.X(0.36)-A2.X(0),height:A2.Y(0)-A2.Y(c1[i]),fill:"var(--svo)"},svg);
+  });
+  el("line",{x1:A2.X(tau-0.5),x2:A2.X(tau-0.5),y1:m.t,y2:H-m.b,stroke:"var(--trip)","stroke-dasharray":"4 4"},svg);
+}
+let pending=null;
+function update(){oneDeal();if(pending)cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>{manyDeals();pending=null;});}
+["sK0","sSig","sL","sTau"].forEach(id=>$(id).addEventListener("input",update));
+drawLadder();oneDeal();manyDeals();
+})();
+</script>
