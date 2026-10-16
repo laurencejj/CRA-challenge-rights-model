@@ -1,0 +1,17 @@
+target,value,unit,source,status,note
+PLR gap vs SVO view: mean,2.7,notches,NAIC 2023 sample of 109 PLR securities (via Fitch Dec 2024),published (study later withdrawn as limited),Pre-rule level of inflation k0
+PLR gap: small CRPs,3.0,notches,NAIC 2023 sample (via Fitch Dec 2024),published (withdrawn study),Tier calibration
+PLR gap: large CRPs,1.9,notches,NAIC 2023 sample (via Fitch Dec 2024),published (withdrawn study),Tier calibration
+PLRs rated above SVO view,106 of 109,count,NAIC 2023 sample (via Fitch Dec 2024),published (withdrawn study),
+Share of PLRs more than 3 notches above SVO,36,percent,NAIC 2023 sample (via Fitch Dec 2024),published (withdrawn study),Mass above the future threshold
+PLRs crossing HY to IG,17 of 109,count,NAIC 2023 sample (via Fitch Dec 2024),published (withdrawn study),
+Share of PLRs issued by small CRPs,86,percent (end-2023),Fitch Dec 2024 citing NAIC CMB,published,Up from 69% in 2019
+PLR inflation in investment grade,about 3,notches,Drexler and Polacek 2026 (Chicago Fed WP 2026-17),published,Cross-check on k0
+Spread premium of PL over same-notch public bonds,126,basis points,Drexler and Polacek 2026,published,Market does not believe PLRs
+Impairment rate of PLR vs same-grade public bonds,about 2x,ratio,Li Oh and Ricciardi 2026 (Columbia WP),abstract only,
+Implied extra capital needed,4-4.5,USD bn per year,Li Oh and Ricciardi 2026,abstract only,Capital-shortfall counterfactual
+PLR holdings: all US insurers,350,USD bn (end-2023; about 7% of bonds),Fitch Dec 2024 citing NAIC,published,
+PLR holdings: life insurers,478,USD bn (2025; about 8% of general account),Drexler and Polacek 2026,published,
+Share of insurer bonds that are filing exempt,over 80,percent,Mayer Brown Dec 2024 deck slide 11,published,
+Challenge threshold tau,3,notches,NAIC P&P Manual amendment (Morgan Lewis Aug 2024),rule text,3+ notch gap allows a meeting; removal is discretionary
+Life RBC factors by designation,see rbc_factors_life.csv,percent pre-tax,Mayer Brown Dec 2024 deck slide 10,published,"1.A 0.158% to 5.C/6 30%"

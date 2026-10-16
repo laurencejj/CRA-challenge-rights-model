@@ -1,0 +1,21 @@
+designation,notch_index,nrsro_equivalent,life_rbc_factor_pretax_pct
+1.A,1,Aaa/AAA,0.158
+1.B,2,Aa1/AA+,0.271
+1.C,3,Aa2/AA,0.419
+1.D,4,Aa3/AA-,0.523
+1.E,5,A1/A+,0.657
+1.F,6,A2/A,0.816
+1.G,7,A3/A-,1.016
+2.A,8,Baa1/BBB+,1.261
+2.B,9,Baa2/BBB,1.523
+2.C,10,Baa3/BBB-,2.168
+3.A,11,Ba1/BB+,3.151
+3.B,12,Ba2/BB,4.537
+3.C,13,Ba3/BB-,6.017
+4.A,14,B1/B+,7.386
+4.B,15,B2/B,9.535
+4.C,16,B3/B-,12.428
+5.A,17,Caa1/CCC+,16.942
+5.B,18,Caa2/CCC,23.798
+5.C,19,Caa3/CCC-,30.000
+6,20,All lower,30.000

@@ -1,0 +1,37 @@
+folder,file,authors,year,title,why_it_matters_here
+1_private_ratings_and_insurers,Drexler_Polacek_2026_MarketKnowsBest_PLR.pdf,"Drexler, Polacek",2026,The Market Knows Best? Private letter ratings,Closest empirics: PLRs inflated ~3 notches in IG; 126bp spread premium; Schedule D PL/FE data design
+1_private_ratings_and_insurers,Meisenzahl_Overpeck_Polacek_2025_LifeInsurersPrivateCredit_ChiFed.pdf,"Meisenzahl, Overpeck, Polacek",2025,Life insurers and private credit,Size and growth of life insurers private credit; private-placement CUSIP method
+1_private_ratings_and_insurers,Fitch_2024_InsurersPrivateCredit_NAICWhitepaper.pdf,Fitch Ratings,2024,"Insurers, private credit and the NAIC",PLR exposure ~$350bn end-2023; reports the withdrawn NAIC study
+1_private_ratings_and_insurers,CRS_2025_PrivateInvestmentsInsurance_IF13319.pdf,Congressional Research Service,2025,Private investments by insurers (IF13319),Plain-language policy background
+1_private_ratings_and_insurers,FSB_2026_PrivateCreditVulnerabilities.pdf,Financial Stability Board,2026,Private credit vulnerabilities,Stability framing for JFS; forced-sale channel
+1_private_ratings_and_insurers,BeckerOppSaidi_2022_RegulatoryForbearanceInsurance.pdf,"Becker, Opp, Saidi",2022,Regulatory forbearance in the US insurance industry (RFS),Earlier NAIC switch from ratings to regulator models (RMBS/CMBS); Schedule D design
+1_private_ratings_and_insurers,Becker_Opp_2014_ReplacingRatings_NBERw19257.pdf,"Becker, Opp",2014,Replacing ratings (NBER w19257),Counterfactual 3: regulator-produced designations
+2_regulation_and_reliance,Opp_etal_2013_RatingAgenciesRegulation.pdf,"Opp, Opp, Harris",2013,Rating agencies in the face of regulation (JFE),Baseline: regulatory reliance makes ratings valuable and inflated; no audit
+2_regulation_and_reliance,Opp_Opp_Harris_2013_RatingAgenciesRegulation_WP.pdf,"Opp, Opp, Harris",2013,Rating agencies in the face of regulation (WP version),Working-paper version with appendix
+2_regulation_and_reliance,Kisgen_Strahan_2010_RatingRegulationCostOfCapital.pdf,"Kisgen, Strahan",2010,Do regulations based on ratings affect cost of capital? (RFS),Regulatory value of a rating notch
+2_regulation_and_reliance,Behr_etal_2018_RegulationsInflatedRatings.pdf,"Behr, Kisgen, Taillard",2018,Did government regulations lead to inflated ratings? (MS),Certification of agencies causes inflation; agency-tier lever
+2_regulation_and_reliance,Bruno_etal_2016_RegulatoryCertification.pdf,"Bruno, Cornaggia, Cornaggia",2016,Does regulatory certification affect information content? (MS),NRSRO certification of a small agency (Kroll-like case)
+2_regulation_and_reliance,Dimitrov_etal_2015_DoddFrankRatings.pdf,"Dimitrov, Palia, Tang",2015,Impact of Dodd-Frank on credit ratings (JFE),Liability shock leads to defensive ratings: the false-challenge side
+2_regulation_and_reliance,Jones_etal_2022_RegulatingRatingAgencies.pdf,"Jones, Alsakka, ap Gwilym, Mantovan",2022,Regulating rating agencies: a conservative behavioural change,Own work: regulation and conservatism
+2_regulation_and_reliance,Herpfer_Maturana_2026_WhoPricesRatingInflation.pdf,"Herpfer, Maturana",2026,Who prices credit rating inflation?,Who bears inflation when prices are thin
+3_audit_testing_disclosure,PerezRichet_Skreta_2022_TestDesignFalsification.pdf,"Perez-Richet, Skreta",2022,Test design under falsification (Econometrica),Optimal test when the tested party can game: theory toolkit for the SVO rule
+3_audit_testing_disclosure,LeitnerWilliams_2023_ModelSecrecyStressTests.pdf,"Leitner, Williams",2023,Model secrecy and stress tests (JF),Should the SVO publish its own view? (counterfactual 2)
+3_audit_testing_disclosure,Olszewski_2009_NonmanipulableTest.pdf,"Olszewski, Sandroni",2009,A non-manipulable test,Limits of testing a forecaster
+3_audit_testing_disclosure,Pluto_2005_LowDefaultPortfolios.pdf,"Pluto, Tasche",2005,Estimating PDs for low default portfolios,Why the SVO view is noisy for thin private deals (sigma)
+4_shopping_and_agency_choice,Bolton_etal_2012_CreditRatingsGame.pdf,"Bolton, Freixas, Shapiro",2012,The credit ratings game (JF),Shopping and inflation benchmark
+4_shopping_and_agency_choice,Skreta_2009_RatingsShopping.pdf,"Skreta, Veldkamp",2009,Ratings shopping and asset complexity (JME),Complexity raises shopping: opacity maps to sigma
+4_shopping_and_agency_choice,Sangiorgi_Spatt_2017_OpacityShoppingBias.pdf,"Sangiorgi, Spatt",2017,"Opacity, credit rating shopping and bias (MS)",Undisclosed ratings: PLRs are the extreme case
+4_shopping_and_agency_choice,Becker_Milbourn_2011_IncreasedCompetition.pdf,"Becker, Milbourn",2011,How did increased competition affect ratings? (JFE),Entry of a smaller agency raises inflation
+4_shopping_and_agency_choice,Griffin_etal_2013_ShoppingOrCatering.pdf,"Griffin, Nickerson, Tang",2013,Rating shopping or catering? (RFS),Catering when agencies compete
+4_shopping_and_agency_choice,Bongaerts_2014_AlternativesIssuerPaid_ECBwp1703.pdf,Bongaerts,2014,Alternatives for issuer-paid ratings (ECB WP),Payment-model alternatives
+4_shopping_and_agency_choice,Kashyap_Kovrijnykh_2016_WhoShouldPay_NBERw18923.pdf,"Kashyap, Kovrijnykh",2016,Who should pay for credit ratings? (RFS/NBER),Welfare benchmark for who pays
+5_rating_design_theory,SaeediShourideh_2026_OptimalRatingDesignMoralHazard.pdf,"Saeedi, Shourideh",2026,Optimal rating design under moral hazard,Modern rating-design toolkit
+5_rating_design_theory,Goel_Thakor_2015_CoarseRatings.pdf,"Goel, Thakor",2015,A theory of coarse credit ratings (JFE),Notches and coarse designations
+5_rating_design_theory,Cohn_etal_2024_IssuerDisclosureScreening.pdf,"Cohn, Rajan, Strobl",2024,Credit ratings: strategic issuer disclosure and optimal screening,Issuer controls what the rater sees
+5_rating_design_theory,JosephsonShapiro_2020_CreditRatingsStructuredFinance.pdf,"Josephson, Shapiro",2020,Credit ratings and structured finance (JFI),Survey of rating theory
+5_rating_design_theory,Holden_2013_EquilibriumModelCRA.pdf,"Holden, Natvik, Vigier",2013,An equilibrium model of credit rating agencies,Reputation equilibrium benchmark
+5_rating_design_theory,BarIsaac_Shapiro_2013_QualityBusinessCycle.pdf,"Bar-Isaac, Shapiro",2013,Ratings quality over the business cycle (JFE),Cyclical discipline
+5_rating_design_theory,Fulghieri_etal_2014_SolicitedUnsolicitedRatings.pdf,"Fulghieri, Strobl, Xia",2014,Economics of solicited and unsolicited ratings (RFS),Threat of an outside opinion disciplines the rater (close in spirit to an SVO check)
+5_rating_design_theory,DaleyGreenVanasco_2020_SecuritizationRatingsCreditSupply.pdf,"Daley, Green, Vanasco",2020,"Securitization, ratings and credit supply (JF)",Ratings and credit supply trade-off (access to private credit)
+5_rating_design_theory,BernsteinFrydmanHilt_2026_ValueOfRatings.pdf,"Bernstein, Frydman, Hilt",2026,The value of ratings,What a rating is worth when prices are absent
+6_own_work,Jones_2025-10-23_ModernCreditRatingGame.pdf,Jones,2025,The Modern Credit Rating Game: a micro-founded dynamic model,"Parent model (precision, posture, verification, penalty) that this paper builds on"
