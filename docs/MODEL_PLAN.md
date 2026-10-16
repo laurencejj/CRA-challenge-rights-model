@@ -207,8 +207,5 @@ flowchart LR
 3. **Hard-to-assess deals:** where $\sigma$ is high (complex structured deals), inflation falls more but false challenges rise.
 4. **Shopping (Stage 4):** after the rule, some deals move to agencies with the lowest penalty $L$.
 
-## 10. Decisions for you
-
-1. **Agency information.** In the baseline the agency knows $\theta$ exactly. We can add agency precision $\pi$ from Paper 1 in Stage 4. I suggest waiting.
-2. **Continuous vs whole notches.** The baseline uses continuous $k$. Whole notches make the bunching sharper but the proofs messier. I suggest staying continuous and using whole notches only in simulations.
-3. **Code language.** The prototype is in Python because that is what this environment has. The final solver can move to Julia or R if you prefer.
+## 10. Modelling choices
+Language: Julia (decided 16 Oct). The open choices on whole notches and agency precision are set out with figures in [DECISIONS.md](DECISIONS.md).

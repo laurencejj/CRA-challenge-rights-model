@@ -246,6 +246,36 @@ ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
   <p class="note col">Parameter values on this page are illustrative until Stage 5. The same model and figures are in the repo: docs/MODEL_PLAN.md and model/core.py in CRA-challenge-rights-model.</p>
 </section>
 
+<section id="choices">
+  <div class="col" style="display:flex;flex-direction:column;gap:12px">
+    <div class="eyebrow">Step 8 · Two open choices</div>
+    <h2>What each choice changes</h2>
+    <p>Both charts follow the sliders in Step 4, so you can test the choices yourself.</p>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Continuous inflation or whole notches?</h3>
+      <svg id="dWhole" viewBox="0 0 440 290" role="img" aria-label="Chosen inflation against SVO noise, continuous and whole notches"></svg>
+      <div class="legend"><span style="--c:var(--svo)">continuous k</span><span style="--c:var(--agency)">whole notches only</span></div>
+      <ul>
+        <li><b>Theory:</b> continuous k moves smoothly with σ, so each result is a clean derivative. Whole notches jump, and can even move back up, so proofs turn into case-by-case comparisons.</li>
+        <li><b>Data:</b> almost no difference. Measured gaps are whole notches either way, and both versions predict a spike at 2 with missing mass at 3 and above.</li>
+      </ul>
+      <span class="pill next">recommend: continuous theory, whole notches in simulations</span>
+    </div>
+    <div class="panel">
+      <h3>Agency precision: now or later?</h3>
+      <svg id="dPrec" viewBox="0 0 440 290" role="img" aria-label="Agency best payoff against its own noise, with and without the challenge right"></svg>
+      <div class="legend"><span style="--c:var(--svo)">with the challenge right</span><span style="--c:var(--mute)">without it</span></div>
+      <ul>
+        <li><b>Here the agency sees true quality with its own error.</b> Without the rule that error costs it nothing (flat grey line). With the rule every notch of error costs it, so <b>the challenge right is what makes accuracy pay</b>.</li>
+        <li>If precision is fixed it acts much like extra SVO noise. The real result comes when the agency chooses how much to spend on accuracy, which links to π in Paper 1.</li>
+      </ul>
+      <span class="pill next">recommend: hold until the Stage 1 proofs, then add as Stage 2b</span>
+    </div>
+  </div>
+</section>
+
 </div>
 
 <script>
@@ -384,9 +414,32 @@ function manyDeals(){
   });
   el("line",{x1:A2.X(tau-0.5),x2:A2.X(tau-0.5),y1:m.t,y2:H-m.b,stroke:"var(--trip)","stroke-dasharray":"4 4"},svg);
 }
+// ---------- choices ----------
+function choices(){
+  const k0=+$("sK0").value,sig=+$("sSig").value,L=+$("sL").value,tau=+$("sTau").value,g=B/k0;
+  let svg=$("dWhole");svg.innerHTML="";
+  const m={l:40,r:12,t:12,b:38},W=440,H=290;
+  const A=axes(svg,W,H,m,[0.1,2.5],[0,Math.max(4,Math.ceil(tau+0.5))],[0.5,1,1.5,2,2.5],[0,1,2,3,4],"SVO noise σ (notches)","chosen k*");
+  el("line",{x1:m.l,x2:W-m.r,y1:A.Y(tau),y2:A.Y(tau),stroke:"var(--trip)","stroke-dasharray":"4 4"},svg);
+  const cont=[],whole=[];
+  for(let s=0.1;s<=2.5001;s+=0.05){cont.push([s,bestK(B,g,L,tau,s,Q)]);let bk=0,bu=-1e9;for(let k=0;k<=8;k++){const u=U(k,B,g,L,tau,s,Q);if(u>bu){bu=u;bk=k;}}whole.push([s,bk]);}
+  line(svg,cont,A.X,A.Y,{stroke:"var(--svo)","stroke-width":2.6});
+  const st=[];whole.forEach((p,i)=>{if(i>0)st.push([p[0]-0.025,whole[i-1][1]]);st.push([p[0]-(i?0.025:0),p[1]]);});st.push([2.5,whole[whole.length-1][1]]);
+  line(svg,st,A.X,A.Y,{stroke:"var(--agency)","stroke-width":2,"stroke-dasharray":"6 4"});
+  svg=$("dPrec");svg.innerHTML="";
+  const zs=[],ws=[];let wsum=0;for(let z=-4;z<=4.0001;z+=0.2){const w=Math.exp(-z*z/2);zs.push(z);ws.push(w);wsum+=w;}
+  const EU=(k,sa,rule)=>{let s=0;for(let i=0;i<zs.length;i++){const e=k+sa*zs[i];const p=rule?P(e,tau,sig,Q):0;s+=ws[i]*(B*e*(1-p)-L*p);}return s/wsum-0.5*g*k*k;};
+  const withR=[],noR=[];
+  for(let sa=0;sa<=2.0001;sa+=0.1){let bu=-1e9;for(let k=0;k<=8;k+=0.02){const u=EU(k,sa,true);if(u>bu)bu=u;}withR.push([sa,bu]);noR.push([sa,0.5*B*k0]);}
+  const top=Math.ceil(Math.max(0.5*B*k0,...withR.map(p=>p[1]))+0.3),bot=Math.min(0,Math.floor(Math.min(...withR.map(p=>p[1]))));
+  const yt=[];for(let v=bot;v<=top;v++)yt.push(v);
+  const A2=axes(svg,W,H,m,[0,2],[bot,top],[0,0.5,1,1.5,2],yt,"agency's own error (sd, notches)","agency's best payoff");
+  line(svg,noR,A2.X,A2.Y,{stroke:"var(--mute)","stroke-width":2,"stroke-dasharray":"6 4"});
+  line(svg,withR,A2.X,A2.Y,{stroke:"var(--svo)","stroke-width":2.6});
+}
 let pending=null;
-function update(){oneDeal();if(pending)cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>{manyDeals();pending=null;});}
+function update(){oneDeal();if(pending)cancelAnimationFrame(pending);pending=requestAnimationFrame(()=>{manyDeals();choices();pending=null;});}
 ["sK0","sSig","sL","sTau"].forEach(id=>$(id).addEventListener("input",update));
-drawLadder();oneDeal();manyDeals();
+drawLadder();oneDeal();manyDeals();choices();
 })();
 </script>

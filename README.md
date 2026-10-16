@@ -13,12 +13,16 @@ Interactive version with sliders: [Challenge Rights Model](https://claude.ai/art
 ```
 docs/
   MODEL_PLAN.md          the model, brick by brick, and the build plan
+  DECISIONS.md           modelling choices and what each one changes
   figures/               figures used in the plan (made by model/make_figures.py)
   explainer.html         source of the interactive primer
   background/            institutional Q&A (NAIC, SVO, the rule) and the literature review
 model/
   core.py                baseline model: payoff, optimal inflation, simulation of many deals
   make_figures.py        regenerates docs/figures/
+  decision_figures.py    figures for docs/DECISIONS.md
+  style.py               shared plot style
+  julia/                 Julia port of the model (ChallengeModel.jl)
 data/
   rbc_factors_life.csv   capital charge per NAIC designation
   calibration_targets.csv  published numbers to match
@@ -32,6 +36,8 @@ literature/
 ```
 cd model
 python3 make_figures.py      # needs numpy, scipy, pandas, matplotlib
+python3 decision_figures.py
+cd julia && julia --project=. check_against_python.jl
 ```
 
 ## Rules for this repo
